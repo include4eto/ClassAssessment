@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/_BasicLayout.cshtml";
+}
+
+<div class="row offset3">
+    <form class="form-horizontal" method="post">
+      <div class="control-group">
+        <label class="control-label" for="inputName">Име</label>
+        <div class="controls">
+          <input type="text" id="inputName" name="inputName" placeholder="Име">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputPassword">Парола</label>
+        <div class="controls">
+          <input type="password" id="inputPassword" name="inputPassword" placeholder="Парола">
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <button type="submit" class="btn">Влез</button>
+        </div>
+      </div>
+    </form>
+</div>
