@@ -16,7 +16,7 @@ namespace ClassAssessment
 			routes.MapRoute(
 				name: "Home",
 				url: string.Empty,
-				defaults: new { controller = "Test", action = "Index", id = UrlParameter.Optional }
+				defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
 			);
 
 			routes.MapRoute(

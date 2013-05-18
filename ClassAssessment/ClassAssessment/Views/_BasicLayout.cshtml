@@ -13,11 +13,25 @@
 <body>
     <div class="navbar">
         <div class="navbar-inner">
-            <a class="brand" href="#">Анкета</a>
+            <a class="brand" href="/Default/Index">Анкета</a>
             <ul class="nav">
                 <li class="active"><a href="#">Оцени</a></li>
                 <li><a href="#">Виж оценката си</a></li>
             </ul>
+
+            <div class="nav pull-right">
+                @if (HttpContext.Current.User.Identity.IsAuthenticated) {
+                    
+                    <ul class="nav">
+                        <li>
+                            <h4>@HttpContext.Current.User.Identity.Name</h4>
+                        </li>
+                        <li>
+                            <a href="/Authentication/Logout">Излез</a>
+                        </li>
+                    </ul>
+                }
+            </div>
         </div>
     </div>
 

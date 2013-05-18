@@ -7,25 +7,27 @@ using System.Web.Security;
 
 namespace ClassAssessment.Controllers
 {
-	public class TestController : Controller
+	public class AuthenticationController : Controller
 	{
 		//
 		// GET: /Test/
 
 		[Authorize]
-		public string Index()
+		public ActionResult Logout()
 		{
 			FormsAuthentication.SignOut();
-			return "Fuck you, world";
+			return View("~/Views/Login.cshtml");
 		}
 
 		[HttpPost]
 		public ActionResult Login(string inputName, string inputPassword)
 		{
+			ViewBag.Username = inputName;
 			if (inputName == "asdf" && inputPassword == "asdf")
 			{
 				FormsAuthentication.SetAuthCookie(inputName, true);
-				return RedirectToAction("Index");
+
+				return RedirectToAction("Index", "Default");
 			}
 			else return View("~/Views/Login.cshtml");
 		}
