@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b6f9f033a0b24b309cf01249fc2ea62f" Name="Diagram1">
+        <EntityTypeShape EntityType="MainDatabaseModel.Answers" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDatabaseModel.Assessments" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDatabaseModel.Questions" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDatabaseModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDatabaseModel.Users" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="MainDatabaseModel.FK_Answer_Assessment" ManuallyRouted="false" />
+        <AssociationConnector Association="MainDatabaseModel.FK_Answer_Question" ManuallyRouted="false" />
+        <AssociationConnector Association="MainDatabaseModel.FK_Assessment_UserFrom" ManuallyRouted="false" />
+        <AssociationConnector Association="MainDatabaseModel.FK_Assessment_UserTo" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

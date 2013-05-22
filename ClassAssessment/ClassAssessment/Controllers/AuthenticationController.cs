@@ -9,14 +9,11 @@ namespace ClassAssessment.Controllers
 {
 	public class AuthenticationController : Controller
 	{
-		//
-		// GET: /Test/
-
 		[Authorize]
 		public ActionResult Logout()
 		{
 			FormsAuthentication.SignOut();
-			return View("~/Views/Login.cshtml");
+			return View("Login");
 		}
 
 		[HttpPost]
@@ -29,12 +26,12 @@ namespace ClassAssessment.Controllers
 
 				return RedirectToAction("Index", "Default");
 			}
-			else return View("~/Views/Login.cshtml");
+			else return View();
 		}
 
 		public ActionResult Login()
 		{
-			return View("~/Views/Login.cshtml");
+			return View();
 		}
 	}
 }
