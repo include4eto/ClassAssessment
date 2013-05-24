@@ -3,47 +3,79 @@
     Layout = "~/Views/_BasicLayout.cshtml";
 }
 
-<div class="row offset3">
-    <select id="user-select">
-        @foreach (var user in ViewBag.Users) {
-            if (user.Id == ViewBag.selectedUser)
-            {
-                <option value="" selected="selected">@user.Name @user.Surname</option>
+<div class="container-fluid">
+
+    <div class="row-fluid">
+        <div class="span2 offset1 well">
+            <h4>Оценени вече:</h4>
+            
+            @foreach (var user in ViewBag.Rated) { 
+                <a href="~/Default/Index?userId=@user.Id">
+                    <label class="label label-success">@user.Name @user.Surname </label>
+                </a>
             }
-            else
-            { 
-                <option value="~/Default/Index?userId=@user.Id">@user.Name @user.Surname</option>
-            }
-        }
 
-    </select>
-
-    <script>
-        $("#user-select").change(function () {
-            window.location = this.options[this.selectedIndex].value;
-        });
-    </script>
-</div>
-
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
-
-    foreach (var question in ViewBag.Questions) {
-        <div class="row offset3 span7 well">
-            <strong>@question.id @question.Text</strong>
-
-            <select class="pull-right">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
         </div>
-    }
-    
-    <div class="row offset4 span6">
-        <button class="btn btn-large btn-success pull-right">Прати</button>
-    </div>
 
-}
+        <div class="span8">
+            <div class="">
+                <select id="user-select">
+                    @foreach (var user in ViewBag.Users) {
+                        if (user.Id == ViewBag.selectedUser)
+                        {
+                            <option value="" selected="selected">@user.Name @user.Surname</option>
+                        }
+                        else
+                        { 
+                            <option value="~/Default/Index?userId=@user.Id">@user.Name @user.Surname</option>
+                        }
+                    }
+
+                </select>
+
+                <script>
+                    $("#user-select").change(function () {
+                        window.location = this.options[this.selectedIndex].value;
+                    });
+                </script>
+            </div>
+
+            @using (Html.BeginForm()) {
+                @Html.ValidationSummary(true)
+
+                for (int i = 0; i < ViewBag.Questions.Count; ++ i) {
+                    <div class="well">
+                        <strong>@ViewBag.Questions[i].id @ViewBag.Questions[i].Text</strong>
+                        
+                        <select class="pull-right" name="@ViewBag.Questions[i].id">
+                            @if (ViewBag.Answers.Count > 0)
+                            {
+                                for (int k = 1; k < 6; ++k) {
+                                    if (ViewBag.Answers[i] == k)
+                                    {
+                                        <option selected="selected">@k</option> 
+                                    }
+                                    else
+                                    {
+                                        <option>@k</option>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                            }
+                        </select>
+                    </div>
+                }
+    
+                    <button class="btn btn-large btn-success pull-right">Прати</button>
+                
+            }
+        </div>
+    </div>
+</div>
