@@ -32,9 +32,22 @@ namespace ClassAssessment.Controllers
 			if (user == null)
 				return View();
 
-			//if (inputName == "asdf" && inputPassword == "asdf")
 			{
-				FormsAuthentication.SetAuthCookie(user.Name + " " + user.Surname, true);
+                FormsAuthentication.SetAuthCookie(user.Name + " " + user.Surname, true);
+                //FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+                //    1,
+                //    user.Name + " " + user.Surname,
+                //    DateTime.Now,
+                //    DateTime.Now.AddMinutes(20),
+                //    true,
+                //    "Member," + user.Roles,
+                //    "/");
+
+                //Roles.AddUserToRole(authTicket.Name, user.Roles);
+
+                //HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName,
+                //                                   FormsAuthentication.Encrypt(authTicket));
+                //Response.Cookies.Add(cookie);
 
 				return RedirectToAction("Index", "Default");
 			}
@@ -45,12 +58,6 @@ namespace ClassAssessment.Controllers
 			if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
 				return RedirectToAction("Index", "Default");
 			return View();
-		}
-
-		[Authorize(Users="Трайко Динев")]
-		public string Dummy()
-		{
-			return "fuck yeah";
 		}
 	}
 }

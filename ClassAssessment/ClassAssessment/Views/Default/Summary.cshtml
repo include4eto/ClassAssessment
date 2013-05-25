@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Summary";
+    Layout = "~/Views/_BasicLayout.cshtml";
+}
+
+<style>
+    h2, h4, h5 {
+        display: inline;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        
+        <div class="span8 offset2 well text-center">
+            <h3>@ViewBag.User.Name @ViewBag.User.Surname</h3>
+            <label>Оценили: @ViewBag.Questions[1].Answers.Count</label>
+
+            <select id="user-select">
+                    @foreach (var user in ViewBag.Users) {
+                        if (user.Id == ViewBag.selectedUser)
+                        {
+                            <option value="" selected="selected">@user.Name @user.Surname</option>
+                        }
+                        else
+                        { 
+                            <option value="~/Default/Summary?userId=@user.Id">@user.Name @user.Surname</option>
+                        }
+                    }
+
+            </select>
+
+            <div id="loading-holder" class="progress progress-success progress-striped active" style="display: none">
+                <div id="loading-bar" class="bar" style="width: 0%"></div>
+            </div>
+ 
+            <ul class="nav nav-tabs" id="myTab">
+                @foreach (var question in ViewBag.Questions)
+                {
+                    <li><a href="#pan_@question.Id">@question.Id</a></li>
+                }
+            </ul>
+ 
+            <div class="tab-content">
+                @foreach (var question in ViewBag.Questions)
+                {
+                    <div class="tab-pane" id="pan_@question.Id">
+                        <pre>
+<h4>@question.Text</h4>
+Средно: @if(question.average <= 0){<h2>-</h2>}else{<h2>@question.average</h2>} Медиана: @if(question.median <= 0){<h2>-</h2>}else{<h2>@question.median</h2>} Мода: @if(question.mode <= 0){<h2>-</h2>}else{<h2>@question.mode</h2>}
+
+<button type="button" class="btn btn-success" data-toggle="collapse" data-target="#col_@question.Id">Индивидуално</button>
+                            <div id="col_@question.Id" class="collapse out">
+@foreach (var answer in question.Answers) { @answer.User <h5>@answer.Value,</h5> }
+                            </div>
+                        </pre>
+                    </div>
+                }
+           
+            </div>
+ 
+            <button class="btn">За печат</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    $('#myTab a:first').tab('show');
+
+    $("#user-select").change(function () {
+        $("#loading-holder").fadeIn();
+
+        var percentage = 0;
+
+        setInterval(function () {
+            percentage += 20;
+            $("#loading-bar").css("width", percentage + "%");
+        }, 120);
+
+        window.location = this.options[this.selectedIndex].value;
+    });
+</script>

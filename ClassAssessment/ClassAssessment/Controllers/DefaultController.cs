@@ -7,6 +7,8 @@ using System.Web.Security;
 using ClassAssessment.Models;
 using System.Diagnostics;
 using System.Collections.Specialized;
+using ClassAssessment.Model;
+using ClassAssessment.Helpers;
 
 namespace ClassAssessment.Controllers
 {
@@ -17,17 +19,6 @@ namespace ClassAssessment.Controllers
 		private ClassAssessment.Models.db92115aa68afb4039a247a1c20130a248Entities DBContext =
 			new db92115aa68afb4039a247a1c20130a248Entities();
 	
-		public class NameShort
-		{
-			public int Id;
-			public string Name, Surname;
-		}
-
-		public class QuestionShort
-		{
-			public int id;
-			public string Text;
-		}
 
 		[Authorize]
         public ActionResult Index(int userId = 0)
@@ -40,6 +31,7 @@ namespace ClassAssessment.Controllers
 
 			ViewBag.Users = from user in DBContext.Users
 							orderby user.Name
+                            where user.Roles != "Admin"
 							select new NameShort
 							{
 								Id = user.Id,
@@ -92,12 +84,15 @@ namespace ClassAssessment.Controllers
                 if (string.IsNullOrEmpty(value))
                     break;
 
+                int valueInt = 1;
+                int.TryParse(value, out valueInt);
+
                 //they are ordered by id, so the first one is really the first one in the database
                 var newAnswer = new Answers()
                 {
                     Assessment = assessment.id,
                     Question = question,
-                    Value = int.Parse(value)
+                    Value = Statistics.Clamp(1, 5, valueInt)
                 };
 
                 DBContext.Answers.Add(newAnswer);
@@ -124,8 +119,15 @@ namespace ClassAssessment.Controllers
 
 		[Authorize]
 		[HttpPost]
-		public ActionResult Index(int userId = 0, int shit = 1)
+		public ActionResult Index(int userId = 2, int shit = 1)
 		{
+            //validation
+            var role = (from user in DBContext.Users
+                       where user.Id == userId
+                       select user.Roles).First();
+            if (role == "Admin")
+                return View(userId);
+
 			//get id
 			string name = HttpContext.User.Identity.Name.Split()[0];
 			var currentUser = (from x in DBContext.Users
@@ -145,5 +147,68 @@ namespace ClassAssessment.Controllers
 
 			return Index(userId);
 		}
+
+        [Authorize(Users="Ирина Шаркова")]
+        public ActionResult Summary(int userId = 2)
+        {
+            var targetUser = from user in DBContext.Users
+                             where user.Id == userId
+                             select user;
+
+            List<AnsweredQuestion> answers = new List<AnsweredQuestion>();
+            foreach (var question in DBContext.Questions)
+            {
+                var answer = (from ans in question.Answers
+                              where ans.Assessments.To == userId
+                              orderby ans.Value
+                              select new AnswerShort()
+                              {
+                                  User = ans.Assessments.Users.Name + " " + ans.Assessments.Users.Surname,
+                                  Value = ans.Value
+                              }).ToList();
+
+                double? average = 0, median = 0;
+                double mode = 0;
+
+                if (answer.Count > 0)
+                {
+                    average = answer.Average(ans => ans.Value.Value);
+                    median = answer.Count % 2 == 0 ? (answer[answer.Count / 2].Value + answer[answer.Count / 2 - 1].Value) / 2.0
+                        : answer[(int)Math.Floor((double)answer.Count / 2)].Value;
+                    mode = Statistics.GetModeFromAnswers(answer, 6);
+                }
+
+                answers.Add(new AnsweredQuestion()
+                {
+                    Answers = answer,
+                    Text = question.Text,
+                    average = average.HasValue ? average.Value : 0,
+                    median = median.HasValue ? median.Value : 0,
+                    mode = mode,
+                    Id = question.id
+                });
+            }
+
+            ViewBag.User = targetUser.First();
+            ViewBag.Questions = answers;
+            ViewBag.Users = from user in DBContext.Users
+                            orderby user.Name
+                            where user.Roles != "Admin"
+                            select new NameShort
+                            {
+                                Id = user.Id,
+                                Name = user.Name,
+                                Surname = user.Surname
+                            };
+            ViewBag.selectedUser = userId;
+
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Print()
+        {
+            return View();
+        }
     }
 }

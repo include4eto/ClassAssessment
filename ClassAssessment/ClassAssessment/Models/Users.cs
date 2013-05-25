@@ -24,6 +24,7 @@ namespace ClassAssessment.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Password { get; set; }
+        public string Roles { get; set; }
     
         public virtual ICollection<Assessments> Assessments { get; set; }
         public virtual ICollection<Assessments> Assessments1 { get; set; }

@@ -17,9 +17,18 @@
     <div class="navbar">
         <div class="navbar-inner">
             <a class="brand" href="/Default/Index">Анкета</a>
+            
             <ul class="nav">
-                <li class="active"><a href="#">Оцени</a></li>
-                <li><a href="#">Виж оценката си</a></li>
+                <li><a href="~/Default/Index">Оцени</a></li>
+                <!-- fast hack here -->
+                @if (HttpContext.Current.User.Identity.Name == "Ирина Шаркова")
+                {
+                    <li><a href="~/Default/Summary">Резултати</a></li>
+                }
+                else
+                {
+                    <li><a href="#">Виж оценката си</a></li>
+                }
             </ul>
 
             <div class="nav pull-right">

@@ -141,6 +141,7 @@
     <Compile Include="Models\Assessments.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Models\MainDatabase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -156,6 +157,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MainDatabase.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelHelpers.cs" />
     <Compile Include="Models\Questions.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
@@ -190,6 +192,7 @@
     <Content Include="Models\MainDatabase.edmx.diagram">
       <DependentUpon>MainDatabase.edmx</DependentUpon>
     </Content>
+    <Content Include="Models\MainDatabase.edmx.sql" />
     <Content Include="Models\MainDatabase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MainDatabase.edmx</DependentUpon>
@@ -209,10 +212,14 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Default\Index.cshtml" />
     <Content Include="Views\Default\Error.cshtml" />
+    <Content Include="Views\Default\Summary.cshtml" />
+    <Content Include="Views\Default\Print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
