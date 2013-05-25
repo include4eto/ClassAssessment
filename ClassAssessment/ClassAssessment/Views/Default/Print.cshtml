@@ -26,7 +26,7 @@
 <body>
     <div class="span8 offset2">
         <h2>ХАРАКТЕРИСТИКА НА УЧЕНИКА</h2>
-        <h3>Трайко Динев</h3>
+        <h3>@ViewBag.User.Name @ViewBag.User.Surname</h3>
         <h4>От XI<sup>A</sup> КЛАС, В СМГ ,,ПАИСИЙ ХИЛЕНДАРСКИ"</h4>
 
         <br />
@@ -37,10 +37,13 @@
             </thead>
 
             <tbody>
-                <tr>
-                    <td>Хуй</td>
-                    <td>Отлично</td>
-                </tr>
+                @foreach (var question in ViewBag.Questions)
+                {
+                    <tr>
+                        <td>@question.Id @question.Text</td>
+                        <td>@( (question.average + question.median) / 2)</td>
+                    </tr>
+                }
             </tbody>
         </table>
 

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using ClassAssessment.Models;
 using HttpContext = System.Web.HttpContext;
+using ClassAssessment.Helpers;
 
 namespace ClassAssessment.Controllers
 {
@@ -23,34 +24,19 @@ namespace ClassAssessment.Controllers
 
 		[HttpPost]
 		public ActionResult Login(string inputName, string inputPassword)
-		{
+        {
+            var hash = Statistics.GetMD5Hash(inputPassword);
 			ViewBag.Username = inputName;
 			var user = (from x in DBContext.Users
-					   where x.Name == inputName
+					   where (x.Name == inputName || x.Surname == inputName) && x.Password == hash
 					   select x).FirstOrDefault();
 
 			if (user == null)
 				return View();
 
-			{
-                FormsAuthentication.SetAuthCookie(user.Name + " " + user.Surname, true);
-                //FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
-                //    1,
-                //    user.Name + " " + user.Surname,
-                //    DateTime.Now,
-                //    DateTime.Now.AddMinutes(20),
-                //    true,
-                //    "Member," + user.Roles,
-                //    "/");
+            FormsAuthentication.SetAuthCookie(user.Name + " " + user.Surname, true);
 
-                //Roles.AddUserToRole(authTicket.Name, user.Roles);
-
-                //HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName,
-                //                                   FormsAuthentication.Encrypt(authTicket));
-                //Response.Cookies.Add(cookie);
-
-				return RedirectToAction("Index", "Default");
-			}
+			return RedirectToAction("Index", "Default");
 		}
 
 		public ActionResult Login()

@@ -148,13 +148,8 @@ namespace ClassAssessment.Controllers
 			return Index(userId);
 		}
 
-        [Authorize(Users="Ирина Шаркова")]
-        public ActionResult Summary(int userId = 2)
+        private List<AnsweredQuestion> GetAnsweredQuestions(int userId)
         {
-            var targetUser = from user in DBContext.Users
-                             where user.Id == userId
-                             select user;
-
             List<AnsweredQuestion> answers = new List<AnsweredQuestion>();
             foreach (var question in DBContext.Questions)
             {
@@ -189,8 +184,18 @@ namespace ClassAssessment.Controllers
                 });
             }
 
+            return answers;
+        }
+
+        [Authorize(Users="Ирина Шаркова")]
+        public ActionResult Summary(int userId = 2)
+        {
+            var targetUser = from user in DBContext.Users
+                             where user.Id == userId
+                             select user;
+
             ViewBag.User = targetUser.First();
-            ViewBag.Questions = answers;
+            ViewBag.Questions = GetAnsweredQuestions(userId);
             ViewBag.Users = from user in DBContext.Users
                             orderby user.Name
                             where user.Roles != "Admin"
@@ -205,10 +210,32 @@ namespace ClassAssessment.Controllers
             return View();
         }
 
-        [Authorize]
-        public ActionResult Print()
+        [Authorize(Users="Ирина Шаркова")]
+        public ActionResult Print(int userId = 2)
         {
+            var targetUser = from user in DBContext.Users
+                             where user.Id == userId
+                             select user;
+
+            ViewBag.User = targetUser.First();
+            ViewBag.Questions = GetAnsweredQuestions(userId);
+
             return View();
+        }
+
+        [Authorize]
+        public ActionResult Result()
+        {
+            //get id
+            string name = HttpContext.User.Identity.Name.Split()[0];
+            var currentUser = (from user in DBContext.Users
+                               where user.Name == name
+                               select user).First();
+
+            ViewBag.User = currentUser;
+            ViewBag.Questions = GetAnsweredQuestions(currentUser.Id);
+
+            return View("Print");
         }
     }
 }

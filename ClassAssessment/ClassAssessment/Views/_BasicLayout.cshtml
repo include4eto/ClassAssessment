@@ -27,16 +27,16 @@
                 }
                 else
                 {
-                    <li><a href="#">Виж оценката си</a></li>
+                    <li><a href="~/Default/Result" target="_blank">Виж оценката си</a></li>
                 }
             </ul>
 
             <div class="nav pull-right">
-                @if (HttpContext.Current.User.Identity.IsAuthenticated) {
+                @if (User.Identity.IsAuthenticated) {
                     
                     <ul class="nav">
                         <li>
-                            <h4>@HttpContext.Current.User.Identity.Name</h4>
+                            <h4>@User.Identity.Name</h4>
                         </li>
                         <li>
                             <a href="/Authentication/Logout">Излез</a>

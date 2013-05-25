@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 
 namespace ClassAssessment.Helpers
@@ -40,6 +42,20 @@ namespace ClassAssessment.Helpers
             if (maxFrequency > 1)
                 return maxVal;
             return -1;
+        }
+
+        public static string GetMD5Hash(string input)
+        {
+            MD5CryptoServiceProvider x = new MD5CryptoServiceProvider();
+            byte[] bs = Encoding.UTF8.GetBytes(input);
+            bs = x.ComputeHash(bs);
+            StringBuilder s = new StringBuilder();
+            foreach (byte b in bs)
+            {
+                s.Append(b.ToString("x2").ToLower());
+            }
+            return s.ToString();
+
         }
     }
 }
