@@ -76,12 +76,9 @@
     $("#user-select").change(function () {
         $("#loading-holder").fadeIn();
 
-        var percentage = 0;
-
-        setInterval(function () {
-            percentage += 20;
-            $("#loading-bar").css("width", percentage + "%");
-        }, 120);
+        setTimeout(function () {
+            $("#loading-bar").css("width", "100%");
+        }, 50);
 
         window.location = this.options[this.selectedIndex].value;
     });
