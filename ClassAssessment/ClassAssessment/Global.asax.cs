@@ -23,7 +23,7 @@ namespace ClassAssessment
 
 		protected void Application_Error()
 		{
-			//Response.Redirect("~/Default/Index");
+			Response.Redirect("~/Default/Index");
 		}
 	}
 }
