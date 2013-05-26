@@ -25,8 +25,10 @@ namespace ClassAssessment.Controllers
         {
 			//get id
 			string[] names = HttpContext.User.Identity.Name.Split();
+            string name = names[0], surname = names[1];
+            
 			var currentUser = (from user in DBContext.Users
-					  where user.Name == names[0] && user.Surname == names[1]
+					  where user.Name == name && user.Surname == surname
 					  select user).First();
 
 			ViewBag.Users = from user in DBContext.Users
@@ -228,8 +230,10 @@ namespace ClassAssessment.Controllers
         {
             //get id
             string[] names = HttpContext.User.Identity.Name.Split();
+            string name = names[0], surname = names[1];
+
             var currentUser = (from user in DBContext.Users
-                               where user.Name == names[0] && user.Surname == names[1]
+                               where user.Name == name && user.Surname == surname
                                select user).First();
 
             ViewBag.User = currentUser;
