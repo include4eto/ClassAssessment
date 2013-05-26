@@ -24,9 +24,9 @@ namespace ClassAssessment.Controllers
         public ActionResult Index(int userId = 0)
         {
 			//get id
-			string name = HttpContext.User.Identity.Name.Split()[0];
+			string[] names = HttpContext.User.Identity.Name.Split();
 			var currentUser = (from user in DBContext.Users
-					  where user.Name == name
+					  where user.Name == names[0] && user.Surname == names[1]
 					  select user).First();
 
 			ViewBag.Users = from user in DBContext.Users
@@ -227,9 +227,9 @@ namespace ClassAssessment.Controllers
         public ActionResult Result()
         {
             //get id
-            string name = HttpContext.User.Identity.Name.Split()[0];
+            string[] names = HttpContext.User.Identity.Name.Split();
             var currentUser = (from user in DBContext.Users
-                               where user.Name == name
+                               where user.Name == names[0] && user.Surname == names[1]
                                select user).First();
 
             ViewBag.User = currentUser;
