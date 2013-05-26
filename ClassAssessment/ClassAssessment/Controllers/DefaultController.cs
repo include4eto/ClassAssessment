@@ -131,9 +131,10 @@ namespace ClassAssessment.Controllers
                 return View(userId);
 
 			//get id
-			string name = HttpContext.User.Identity.Name.Split()[0];
+            string[] names = HttpContext.User.Identity.Name.Split();
+            string name = names[0], surname = names[1];
 			var currentUser = (from x in DBContext.Users
-					  where x.Name == name
+					  where x.Name == name && x.Surname == surname
 					  select x).First();
 
             var previousAssessment = (from assessment in currentUser.Assessments
