@@ -17,7 +17,7 @@
 
     <style>
         body {
-            margin: 4%;
+            margin: 3%;
             text-align: center;
         }
 
@@ -27,10 +27,10 @@
     <div class="span8 offset2">
         <h2>ХАРАКТЕРИСТИКА НА УЧЕНИКА</h2>
         <h3>@ViewBag.User.Name @ViewBag.User.Surname</h3>
-        <h4>От XI<sup>A</sup> КЛАС, В СМГ ,,ПАИСИЙ ХИЛЕНДАРСКИ"</h4>
+        <h4>От XI<sup>A</sup> КЛАС, СМГ ,,ПАИСИЙ ХИЛЕНДАРСКИ"</h4>
 
         <br />
-        <table class="table table-bordered">
+        <table class="table table-bordered table-condensed">
             <thead>
                 <th>Параметри</th>
                 <th>Равнище</th>
@@ -40,10 +40,18 @@
                 @foreach (var question in ViewBag.Questions)
                 {
                     <tr>
-                        <td>@question.Id @question.Text</td>
+                        <td><b>@question.Id.</b> @question.Text</td>
                         <td>@( (question.average + question.median) / 2)</td>
                     </tr>
                 }
+
+                <tr class="text-center">
+                    <td colspan="2" style="text-align: center; height: 8em;">Получени награди и отличия (дарби и способности)</td>
+                </tr>
+
+                <tr class="text-center">
+                    <td colspan="2" style="text-align: center; height: 8em;">Препоръки</td>
+                </tr>
             </tbody>
         </table>
 
